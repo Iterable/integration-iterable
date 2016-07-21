@@ -1,4 +1,3 @@
-
 var Test = require('segmentio-integration-tester');
 var helpers = require('./helpers');
 var facade = require('segmentio-facade');
@@ -131,6 +130,18 @@ describe('Iterable', function(){
         .set({ apiKey: 'x' })
         .track({})
         .error('cannot POST /api/events/track (401)', done);
+    });
+
+    it('should map a track with template and campaign ids', function(done){
+      var json = test.fixture('track-basic-special-fields');
+
+      test
+        .set(settings)
+        .track(json.input)
+        .sends(json.output)
+        .expects(200)
+        .pathname('/api/events/track')
+        .end(done);
     });
 
     it('should map Added Product to updateCart if there is a cart provided', function(done){
